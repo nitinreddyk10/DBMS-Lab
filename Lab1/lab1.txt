@@ -1,0 +1,34 @@
+create table Orders(Ord_num number(4),Ord_amount number(5),Advance_amount number(5),Ord_date varchar(25),Cust_code varchar(4),Agent_code varchar(5),Descriptions varchar(20));
+
+insert all;
+insert into Orders(Ord_num,Ord_amount,Advance_amount,Ord_date,Cust_code,Agent_code,Descriptions)values(004,200,3000,'15-aug-2020','c004','Ac101','Masala Kulcha');
+insert into Orders(Ord_num,Ord_amount,Advance_amount,Ord_date,Cust_code,Agent_code,Descriptions)values(007,600,5000,'17-sept-2020','C006',' Ac003','Biriyani');
+insert into Orders(Ord_num,Ord_amount,Advance_amount,Ord_date,Cust_code,Agent_code,Descriptions)values(008,700,100,'19-feb-2019','C007',' Ac005','Biriyani');
+insert into Orders(Ord_num,Ord_amount,Advance_amount,Ord_date,Cust_code,Agent_code,Descriptions)values(009,10000,600,'21-mar-2010','C009',' Ac002','Masala Dosa');
+insert into Orders(Ord_num,Ord_amount,Advance_amount,Ord_date,Cust_code,Agent_code,Descriptions)values(010,20,600,'21-apr-2012','C006',' Ac005','Chicken Tikka');
+
+select * from Orders;
+
+select Descriptions from Orders;
+
+select Ord_num,Cust_code from Orders;
+
+Delete from Orders where Ord_num=10;
+
+select * from Orders;
+
+create table Agents(Agent_code varchar(5),Agent_name varchar(25),Working_area varchar(25),Commission float(5),Phone_no number(24),Country varchar(20));
+
+insert into Agents values('Ac001','Ramesh','Banglore',0.15,0331234567,'India');
+insert into Agents values('Ac002','Dinesh','Banglore',0.25,0331234568,'');
+insert into Agents values('Ac003','Suresh','Mumbai',0.35,0331234569'London');
+insert into Agents values('Ac004','Kamlesh','New Jersey',0.68,0331234564,'');
+insert into Agents values('Ac005','Kartik','Chennai',0.73,0331234563,'India');
+
+select * from Agents;
+
+select Commission,Phone_no from Agents;
+
+Delete from Agents Agent_name='Ramesh';
+
+select * from Agents;

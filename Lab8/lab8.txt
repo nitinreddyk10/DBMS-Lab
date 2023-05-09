@@ -1,0 +1,83 @@
+TABLES CREATION:
+
+create table course_taken(student_name varchar(20),course varchar(40));
+insert into course_taken values('Robert','Databases');
+insert into course_taken values('Robert','Programming Languages');
+insert into course_taken values('David','Databases');
+insert into course_taken values('David','Programming Languages');
+insert into course_taken values('Hannah','Programming Languages');
+insert into course_taken values('Tom','Operating systems');
+insert into course_taken values('David','Operating systems');
+
+create table course_required(course varchar(40));
+insert into course_required values('Databases');
+insert into course_required values('Programming Languages');
+
+create table bank(bank_name varchar(10),state varchar(30));
+insert into bank values('SBI','ANDHRAPRADESH');
+insert into bank values('SBI','TAMILNADU');
+insert into bank values('SBI','KARNATAKA');
+insert into bank values('ICICI','TAMILNADU');
+insert into bank values('ICICI','KARNATAKA');
+
+create table account_holder(account_name varchar(20),bank_name varchar(10),state_name varchar(30));
+insert into account_holder values('RAMESH','ICICI','TAMILNADU');
+insert into account_holder values('DINESH','SBI','ANDHRAPRADESH');
+insert into account_holder values('ROBERT','SBI','TAMILNADU');
+insert into account_holder values('ROBERT','ICICI','KARNATAKA');
+insert into account_holder values('ROBERT','SBI','ANDHRAPRADESH');
+insert into account_holder values('KARTHIK','SBI','ANDHRAPRADESH');
+
+QUERRIES:
+--1
+--a
+CREATE TABLE AllStudents AS SELECT DISTINCT student_Name FROM course_taken;
+
+--b
+CREATE table StudentsAndRequired AS 
+SELECT AllStudents.student_Name, course_required.course
+FROM AllStudents, course_required;
+
+select*from StudentsAndRequired;
+--c
+CREATE  table StudentsAndNotTaken AS 
+SELECT * FROM StudentsAndRequired WHERE NOT EXISTS 
+(Select * FROM course_taken WHERE StudentsAndRequired.student_name = course_taken.student_name 
+AND StudentsAndRequired.course = course_taken.course);
+
+--d
+CREATE table CannotGraduate AS SELECT DISTINCT student_name FROM StudentsAndNotTaken;
+
+--e
+
+CREATE Table CanGraduate AS SELECT * FROM AllStudents 
+WHERE NOT EXISTS 
+(SELECT * FROM CannotGraduate WHERE 
+    CannotGraduate.Student_name = AllStudents.Student_name);
+    
+
+--3
+--a
+create table allbanks as select distinct(account_name),count(account_name) as countbanks from account_holder group by account_name;
+select account_name from allbanks where countbanks>1;
+
+--b
+create table allstates as select distinct(bank_name),count(bank_name) as countstate from bank group by bank_name;
+select bank_name from allstates where countstate=(select max(countstate) from allstates);
+
+--c
+select bank_name from allstates where countstate!=(select max(countstate) from allstates);
+
+--d
+select account_name from allbanks where countbanks=(select max(countstate) from allstates);
+
+
+--2
+(1)
+select distinct(student_name) from StudentsAndRequired where student_name in (select distinct(student_name) from StudentsAndNotTaken);
+(2)
+create table sample as select * from course_taken where course=any(select course from course_required);
+create table notgraduate as select distinct(student_name) from (select * from StudentsAndRequired minus select * from sample);
+select * from notgraduate;
+(3)
+select * from allstudents intersect select distinct(student_name) from StudentsAndNotTaken;

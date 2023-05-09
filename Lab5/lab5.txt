@@ -1,0 +1,59 @@
+create table Orders(Ord_num number(4),Ord_amount number(5),Advance_amount number(5),Ord_date varchar(25),Cust_code varchar(4),Agent_code varchar(5),Descriptions varchar(20));
+ 
+insert into orders values('004',200,3000,'15-aug-2020','C004','AC001','Masala kulcha');
+insert into orders values('007',600,5000,'17-sep-2020','C006','AC003','Biriyani');
+insert into orders values('008',700,100,'19-feb-2019','C007','AC005','');
+insert into orders values('009',10000,600,'21-march-2010','C009','AC008','Masala dosa');
+insert into orders values('010',20,600,'21-apr-2012','C006','AC005','');
+
+create table Agents(Agent_code varchar(5),Agent_name varchar(25),Working_area varchar(25),Commission float(5),Phone_no number(24),Country varchar(20));
+
+insert into Agents values('AC001','Ramesh','Banglore','.15','0331234567','India');
+insert into Agents values('AC002','Dinesh','Banglore','.25','0331234568','');
+insert into Agents values('AC003','Suresh','Mumbai','.35','0331234569','London');
+insert into Agents values('AC004','Kamlesh','New jersey','.68','0331234564','');
+insert into Agents values('AC005','Kartik','chennai','.73','0331234563','India');
+
+select ord_num,ord_amount,ord_date,cust_code,agent_code from orders where agent_code in (select agent_code from agents where (working_area='Banglore'));
+
+select ord_num,ord_amount,cust_code,agent_code from orders where agent_code in  (select agent_code from agents where (agents.agent_code=orders.agent_code and agent_name='Ramesh'));
+
+
+
+
+create table employees(employee_id number(7),first_name varchar(15),last_name varchar(15),email varchar(40),phone_number number(10),hire_date varchar(15),jobid varchar(6),salary number(6),manager_id number(5),department_id varchar(4));
+alter table employees modify manager_id varchar(7);
+
+insert into employees values(700,'Hasmukh','Patel','hp@gmail.com',7003216160,'15-aug-2020','Hp003',7000, '','90');
+insert into employees values(800,'Kamlesh','Paul','kp@gmail.com',7003216270,'17-feb-2020','Kp004',8000,'506' ,'90');
+insert into employees values(900,'Dinesh','Gandhi','dp@yahoo.com',9136278563,'19-march-2101','Dg006',20000, '508','80');
+insert into employees values(701,'Suresh','Modi','sm@gmail.com',9187653294,'20-april-2015','Sm009',15000,'' ,'80');
+
+select employee_id,manager_id,first_name,last_name from employees where manager_id in(select manager_id from employees where manager_id>'0');
+select employee_id,manager_id,first_name,last_name from employees where manager_id is null;
+
+
+
+
+create table salesman(salesman_id varchar2(10), name varchar2(10),city varchar2(10),commission varchar2(10));
+insert into salesman values('si123@06','Lakshmi','Kolkata','.5');
+insert into salesman values('si123@09','Ganesh','London','.6');
+insert into salesman values('si123@90','Dinesh','London','.3');
+insert into salesman values('si123@10','Joseph','Chennai','.6');
+insert into salesman values('si123@19','Mahesh','Hyderabad','.65');
+insert into salesman values('si123@26','Paul Adam','London','.1');
+insert into salesman values('si123@67','Rahul','Delhi','.4');
+
+create table orders1(Ord_no int, Purch_amt int, Ord_date varchar2(15), Customer_id varchar2(8), Salesman_id varchar2(12));
+
+insert into orders1 values('123','600','20-aug-2010','003cd','si123@19');
+insert into orders1 values('576','750','20-feb-2018','004cd','si123@19');
+insert into orders1 values('579','800','20-may-2012','004cd','si123@26');
+insert into orders1 values('600','60000','20-jan-2021','006cd','si123@10');
+insert into orders1 values('700','745','26-jan-2021','007cd','si123@09');
+insert into orders1 values('800','860','29-jan-2019','007cd','si123@26');
+
+Select *from orders1 where salesman_id in (select salesman_id from salesman where name='Paul Adam');
+Select *from orders1 where salesman_id in (select salesman_id from salesman where city='London');
+
+

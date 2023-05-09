@@ -1,0 +1,313 @@
+2. Find the roll no of female student whose name has alphabet
+‘o’ .
+
+SQL>  select rollno from student where sex='female' and name like '%o%';
+
+ROLLNO
+-----
+42019
+43130
+43226
+44271
+44304
+4508
+45570
+45720
+463
+46436
+4682
+47677
+48589
+49073
+49280
+1018
+10736
+11055
+11262
+11419
+11510
+11682
+1220
+12326
+12666
+13290
+13352
+13403
+13408
+13753
+13826
+14214
+15030
+15070
+15144
+15430
+16075
+16311
+17128
+17192
+17207
+17424
+18108
+18367
+18469
+18636
+18809
+19203
+19603
+19766
+21009
+21101
+21225
+21337
+21766
+22618
+23457
+23934
+25940
+2629
+26730
+27430
+27528
+27727
+28019
+28361
+28977
+2967
+29863
+29920
+31080
+31476
+32056
+33206
+33759
+33882
+34055
+34386
+35
+35198
+35357
+36263
+37219
+37430
+37715
+37809
+38555
+38691
+39115
+39238
+39552
+39892
+40044
+4015
+40276
+40303
+40457
+40677
+40682
+50658
+50719
+50966
+51579
+51768
+51862
+51955
+52371
+53485
+53699
+
+109 rows selected.
+
+3. Count the number of male and female professor ending with
+‘a’ joined after 2000.
+
+ select count(sex) from professor where name like '%a' and sex='female'   and startyear>2000;
+
+
+SQL>  select count(sex) from professor where name like '%a' and sex='male'   and startyear>2000;
+
+COUNT(SEX)
+----------
+         0
+
+SQL>  select count(sex) from professor where name like '%a' and sex='female'   and startyear>2000;
+
+COUNT(SEX)
+----------
+         0
+
+4. Find the name of department having deptId atleast 10 and the
+phone number has two consecutive 55.
+
+SQL> select name from department where deptid>=10 and phone like '%55%';
+
+NAME
+--------------------
+Finance
+Geology
+Athletics
+
+
+5.  Find the senior most hod in the institute.
+
+
+SQL> select hod from department intersect select empid from professor;
+
+HOD
+-----
+14365
+15347
+19368
+22591
+25946
+28097
+28400
+3199
+3335
+36897
+43779
+48507
+50330
+63395
+6569
+77346
+80759
+
+17 rows selected.
+
+
+SQL> select min(startyear) from professor;
+
+MIN(STARTYEAR)
+--------------
+          1984
+
+SQL> select empid,name from professor where startyear=1984;
+
+EMPID NAME
+----- --------------------
+CS01  GIRIDHAR
+
+
+6. Find the number of “A ” grade student and number of
+enrollment occured in every year .
+
+SQL> SELECT count(grade),year,count(year) from enrollment where grade='A' group by year;
+
+COUNT(GRADE)       YEAR     COUNT(YEAR)
+------------                    ---------- -----------
+          46       		2005          46
+          28       		2001          28
+          64      		 2003          64
+          29      		 2004          29
+          50      		 2002          50
+
+
+SQL> select count(year),year from enrollment group by year;
+
+COUNT(YEAR)       YEAR
+----------- ----------
+        194       2005
+        117       2001
+        270       2003
+        138       2004
+        281       2002
+
+7.    Determine the number of courses for which each course serve
+as a prerequisite.
+
+
+SQL> select courseid,count(prereqcourse) from preRequisite group by courseid;
+
+COURSEID COUNT(PREREQCOURSE)
+-------- -------------------
+169                        1
+209                        1
+236                        1
+254                        1
+292                        1
+324                        2
+353                        2
+443                        1
+631                        1
+792                        1
+795                        1
+802                        1
+972                        1
+158                        1
+258                        1
+338                        2
+359                        2
+458                        1
+591                        1
+656                        2
+663                        1
+692                        3
+747                        2
+780                        1
+793                        1
+810                        1
+830                        1
+902                        1
+272                        1
+392                        1
+612                        1
+805                        1
+991                        1
+224                        1
+313                        1
+399                        1
+486                        1
+496                        3
+558                        1
+603                        1
+608                        2
+628                        1
+804                        1
+998                        1
+241                        1
+242                        2
+349                        1
+362                        2
+582                        1
+664                        2
+696                        1
+774                        2
+820                        1
+877                        1
+276                        1
+376                        1
+403                        2
+411                        1
+704                        1
+841                        1
+843                        1
+947                        1
+958                        3
+239                        1
+545                        2
+559                        1
+586                        1
+618                        1
+852                        2
+875                        1
+457                        1
+544                        2
+629                        1
+647                        1
+694                        1
+760                        1
+864                        1
+
+77 rows selected.
+
+8.  Find the number of course taught in Even and Odd year in
+the classroom which contain the letter “R1”.
+
+
+
+SQL> select count(courseid) from teaching where classroom='R1' group by sem;
+
+COUNT(COURSEID)
+---------------
+              2
+              3

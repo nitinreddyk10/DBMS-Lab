@@ -1,0 +1,67 @@
+--1
+create table committe(commit_id varchar2(6),names varchar2(20));
+insert into committe values('101','Ramesh');
+insert into committe values('102','Suresh');
+insert into committe values('103','Hritik');
+
+create table members(member_id varchar2(6),names varchar2(20));
+insert into members values('m101','Ramesh');
+insert into members values('m102','Suresh');
+insert into members values('m103','Rakesh');
+
+select * from committe;
+select * from members;
+
+--a
+select committe.names from committe left join members on committe.names=members.names
+MINUS
+select committe.names from committe inner join members on committe.names=members.names;
+
+--b
+select members.names from members left join committe on committe.names=members.names
+MINUS
+select members.names from members inner join committe on committe.names=members.names;
+alter table committe add(age number(3));
+update committe set age=20 where commit_id='101';
+update committe set age=20 where commit_id='102';
+update committe set age=30 where commit_id='103';
+
+--c
+select a.* , b.* from committe a,committe b;
+select distinct(a.names) as names1 from committe a,committe b where a.age=b.age and a.names!=b.names;
+
+
+--2
+create table tempo as
+select student.rollno,student.name,enrollment.COURSEID,student.ADVISOR
+ from student inner join enrollment on student.ROLLNO=ENROLLMENT.rollno;
+select distinct(tempo.rollno),tempo.name from tempo inner join teaching on tempo.COURSEID=TEACHING.COURSEID and tempo.ADVISOR=TEACHING.EMPID;
+
+--3
+select * from COURSE where COURSEID in
+(select PREREQCOURSE from PREREQUISITE where COURSEID in
+(select PREREQCOURSE from PREREQUISITE where courseid=608)
+union
+select PREREQCOURSE from PREREQUISITE where courseid=608);
+
+select * from (select PREREQCOURSE from PREREQUISITE where COURSEID in
+(select PREREQCOURSE from PREREQUISITE where courseid=608)
+union
+select PREREQCOURSE from PREREQUISITE where courseid=608) inner join course on course.COURSEID=PREREQCOURSE;
+
+--4
+create table  temp2 as
+select * from  ENROLLMENT where COURSEID in 
+(select COURSEID from teaching where empid in (select EMPID from TEACHING where COURSEID='319')) ;
+select ROLLNO from student 
+minus
+select DISTINCT(temp2.rollno) from temp2 inner join student on temp2.rollno=student.ROLLNO;
+
+--5
+select enrollment.ROLLNO from PREREQUISITE   inner join ENROLLMENT on prerequisite.PREREQCOURSE=ENROLLMENT.COURSEID where prerequisite.COURSEID=760 and ENROLLMENT.GRADE='S';
+
+--6
+select distinct(student.rollNo),student.name from student 
+inner join (select a.rollNo from enrollment a,enrollment b 
+where a.rollNo=b.rollNo and a.courseId=b.courseId and (a.sem <> b.sem or a.year<>b.year)) enrollment
+on student.rollNo=enrollment.rollNo;

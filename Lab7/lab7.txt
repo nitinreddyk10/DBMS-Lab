@@ -1,0 +1,30 @@
+// ALTER TABLE tablename DROP PRIMARY KEY;
+// ALTER TABLE tablename DROP CONSTRAINT fk_name;
+// desc tablename;
+
+Q1:
+Creating Keys:
+
+ALTER TABLE Agents ADD CONSTRAINT agentcode_agnt PRIMARY KEY(Agent_code);
+
+ALTER TABLE orders ADD PRIMARY KEY(Ord_num);
+ALTER TABLE orders ADD FOREIGN KEY(Agent_code) REFERENCES Agents(Agent_code);
+
+Answer:
+
+
+Q2:
+Creating Keys:
+
+ALTER TABLE employees ADD CONSTRAINT empid_emplys PRIMARY KEY(employee_id);
+
+Answer:
+SELECT employee_id, manager_id, first_name,last_name FROM employees WHERE salary<(select avg(salary) from employees)INTERSECT select employee_id, manager_id, first_name,last_name FROM employees WHERE manager_id is NOT NULL INTERSECT SELECT employee_id, manager_id, first_name,last_name from employees WHERE last_name LIKE 'P%';
+
+Q3:
+Creating Keys:
+
+ALTER TABLE salesman ADD CONSTRAINT slsmnid_slsmn PRIMARY KEY(salesman_id);
+
+ALTER TABLE orders1 ADD CONSTRAINT ordno_orders PRIMARY KEY(Ord_no);
+ALTER TABLE orders1 ADD FOREIGN KEY(salesman_id) REFERENCES salesman(salesman_id);
